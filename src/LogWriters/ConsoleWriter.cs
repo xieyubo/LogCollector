@@ -1,4 +1,4 @@
-﻿using LogCollector.LogWritters;
+﻿using LogCollector.LogWriters;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -6,9 +6,9 @@ using System;
 
 namespace LogCollector;
 
-internal class ConsoleWritter : WritterBase, IDisposable
+internal class ConsoleWriter : WriterBase, IDisposable
 {
-    public ConsoleWritter(ILogger<ConsoleWritter> logger, ILogCollector[] collectors, IConfiguration configuration)
+    public ConsoleWriter(ILogger<ConsoleWriter> logger, ILogCollector[] collectors, IConfiguration configuration)
         : base(collectors, configuration)
     {
         m_logger = logger;

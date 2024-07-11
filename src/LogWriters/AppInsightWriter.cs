@@ -3,16 +3,16 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Extensions.Configuration;
 
-namespace LogCollector.LogWritters;
+namespace LogCollector.LogWriters;
 
-internal class AppInsightWritterOptions : WritterOptionsBase
+internal class AppInsightWriterOptions : WriterOptionsBase
 {
     public required string ConnectionString { get; set; }
 }
 
-internal class AppInsightWritter : WritterBase<AppInsightWritterOptions>
+internal class AppInsightWriter : WriterBase<AppInsightWriterOptions>
 {
-    public AppInsightWritter(ILogCollector[] collectors, IConfiguration configuration)
+    public AppInsightWriter(ILogCollector[] collectors, IConfiguration configuration)
         : base(collectors, configuration)
     {
         m_appInsight = new TelemetryClient(new TelemetryConfiguration()

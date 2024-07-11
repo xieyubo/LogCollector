@@ -15,7 +15,7 @@ internal class Worker : BackgroundService, IDisposable
     {
         var config = sp.GetRequiredService<IConfiguration>().GetRequiredSection("LogCollector");
         _collectors = CreateObjects<ILogCollector>(sp, config.GetRequiredSection("collectors"));
-        _writers = CreateObjects<ILogWritter>(new LogWritterServiceProviderWrapper(sp, _collectors), config.GetRequiredSection("writers"));
+        _writers = CreateObjects<ILogWriter>(new LogWriterServiceProviderWrapper(sp, _collectors), config.GetRequiredSection("writers"));
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -41,9 +41,9 @@ internal class Worker : BackgroundService, IDisposable
         base.Dispose();
     }
 
-    private class LogWritterServiceProviderWrapper : IServiceProvider
+    private class LogWriterServiceProviderWrapper : IServiceProvider
     {
-        public LogWritterServiceProviderWrapper(IServiceProvider defaultServiceProvider, ILogCollector[] collectors)
+        public LogWriterServiceProviderWrapper(IServiceProvider defaultServiceProvider, ILogCollector[] collectors)
         {
             _defaultServiceProvider = defaultServiceProvider;
             _collectors = collectors;
@@ -78,5 +78,5 @@ internal class Worker : BackgroundService, IDisposable
     }
 
     private ILogCollector[] _collectors;
-    private ILogWritter[] _writers;
+    private ILogWriter[] _writers;
 }

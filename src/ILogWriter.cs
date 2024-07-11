@@ -2,7 +2,7 @@
 
 namespace LogCollector;
 
-internal interface ILogWritter
+internal interface ILogWriter
 {
     void Write(TraceEvent traceEvent);
 }

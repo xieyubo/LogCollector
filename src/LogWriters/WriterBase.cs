@@ -3,20 +3,20 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
-namespace LogCollector.LogWritters;
+namespace LogCollector.LogWriters;
 
-internal class WritterOptionsBase
+internal class WriterOptionsBase
 {
     public required string Type { get; set; }
     public required string[] collectors { get; set; }
 }
 
-internal abstract class WritterBase<TWritterOptions> : ILogWritter, IDisposable
-    where TWritterOptions : WritterOptionsBase
+internal abstract class WriterBase<TWriterOptions> : ILogWriter, IDisposable
+    where TWriterOptions : WriterOptionsBase
 {
-    protected WritterBase(ILogCollector[] collectors, IConfiguration configuration)
+    protected WriterBase(ILogCollector[] collectors, IConfiguration configuration)
     {
-        Options = configuration.Get<TWritterOptions>() ?? throw new Exception("Can't get ConsoleWritter options."); ;
+        Options = configuration.Get<TWriterOptions>() ?? throw new Exception("Can't get ConsoleWriter options."); ;
 
         _collectors = Options.collectors.Select(n =>
         {
@@ -35,14 +35,14 @@ internal abstract class WritterBase<TWritterOptions> : ILogWritter, IDisposable
         _collectors.ForEach(c => c.OnLogReceived -= Write);
     }
 
-    protected TWritterOptions Options { get; }
+    protected TWriterOptions Options { get; }
 
     private ILogCollector[] _collectors { get; }
 }
 
-internal abstract class WritterBase : WritterBase<WritterOptionsBase>
+internal abstract class WriterBase : WriterBase<WriterOptionsBase>
 {
-    protected WritterBase(ILogCollector[] collectors, IConfiguration configuration)
+    protected WriterBase(ILogCollector[] collectors, IConfiguration configuration)
         : base(collectors, configuration)
     {
     }
